@@ -39,42 +39,15 @@ modules:
     dotnet publish PKHeX.Avalonia/PKHeX.Avalonia.csproj \
       -c Release -r $RUNTIME --no-self-contained \
       -p:PublishSingleFile=false -p:NuGetAudit=false \
-      -p:SourceRevisionId=4337f06881614b409c70429903013de8bf375cfc \
+      -p:SourceRevisionId=4ec7285efa1e5f47a08d3429cfc39a87ae2446f1 \
       --source ./nuget-sources \
       --source /usr/lib/sdk/dotnet10/nuget/packages \
       -o /app/lib/pkhex-avalonia
   - sed -i '/^appstreamcli validate --no-net /d' packaging/flatpak/install-assets.sh
-  - bash packaging/flatpak/install-assets.sh 1.88.0 4337f06881614b409c70429903013de8bf375cfc 2026-10-05
-  - |
-    python3 - <<'PY'
-    from pathlib import Path
-    from struct import unpack
-
-    icon = Path('PKHeX.Avalonia/Assets/Icons/icon.icns').read_bytes()
-    if icon[:4] != b'icns':
-        raise SystemExit('Invalid ICNS file')
-
-    offset = 8
-    while offset + 8 <= len(icon):
-        kind = icon[offset:offset + 4]
-        size = unpack('>I', icon[offset + 4:offset + 8])[0]
-        if size < 8 or offset + size > len(icon):
-            raise SystemExit('Invalid ICNS chunk')
-        if kind == b'ic08':
-            png = icon[offset + 8:offset + size]
-            if png[:8] != b'\x89PNG\r\n\x1a\n' or unpack('>II', png[16:24]) != (256, 256):
-                raise SystemExit('Expected original 256px PNG')
-            target = Path('/app/share/icons/hicolor/256x256/apps/io.github.realgarit.PKHeX-Avalonia.png')
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(png)
-            break
-        offset += size
-    else:
-        raise SystemExit('Original 256px icon not found')
-    PY
+  - bash packaging/flatpak/install-assets.sh 1.98.3 4ec7285efa1e5f47a08d3429cfc39a87ae2446f1 2026-10-28
   sources:
   - type: archive
-    url: https://github.com/realgarit/PKHeX-Avalonia/archive/refs/tags/v1.88.0.tar.gz
-    sha256: 613571d37c4ebefb6892afe993c14ad7b981bc7d52c35b7f8f6125d14c62a2d6
+    url: https://github.com/realgarit/PKHeX-Avalonia/archive/refs/tags/v1.98.3.tar.gz
+    sha256: 295b667fe135869e0a795db9e1ed21b3ab3eb4c6c433f838a0d5ec7da0b4a258
     strip-components: 1
   - nuget-sources.json
