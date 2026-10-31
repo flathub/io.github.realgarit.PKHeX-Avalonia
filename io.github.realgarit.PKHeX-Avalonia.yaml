@@ -39,15 +39,15 @@ modules:
     dotnet publish PKHeX.Avalonia/PKHeX.Avalonia.csproj \
       -c Release -r $RUNTIME --no-self-contained \
       -p:PublishSingleFile=false -p:NuGetAudit=false \
-      -p:SourceRevisionId=4ec7285efa1e5f47a08d3429cfc39a87ae2446f1 \
+      -p:SourceRevisionId=3dc242455ce3a5c5bf1705d4b4c9e8d8405da64d \
       --source ./nuget-sources \
       --source /usr/lib/sdk/dotnet10/nuget/packages \
       -o /app/lib/pkhex-avalonia
   - sed -i '/^appstreamcli validate --no-net /d' packaging/flatpak/install-assets.sh
-  - bash packaging/flatpak/install-assets.sh 1.98.3 4ec7285efa1e5f47a08d3429cfc39a87ae2446f1 2026-10-28
+  - bash packaging/flatpak/install-assets.sh 1.98.8 3dc242455ce3a5c5bf1705d4b4c9e8d8405da64d 2026-10-31
   sources:
   - type: archive
-    url: https://github.com/realgarit/PKHeX-Avalonia/archive/refs/tags/v1.98.3.tar.gz
-    sha256: 295b667fe135869e0a795db9e1ed21b3ab3eb4c6c433f838a0d5ec7da0b4a258
+    url: https://github.com/realgarit/PKHeX-Avalonia/archive/refs/tags/v1.98.8.tar.gz
+    sha256: 3f4c32c6b11665920fd5a036961d990b1be6bbf95f2ed18e93c469d820c42b47
     strip-components: 1
   - nuget-sources.json
